@@ -7,7 +7,6 @@ class TaskManager
 {
     private array $tasks;
     private int $nextId;
-
     private string $taskStore = "./store/task.json";
 
     public function __construct()
@@ -19,15 +18,13 @@ class TaskManager
     public function addTask(string $description): void
     {
         $task = new Task($this->nextId, $description);
-
         array_push($this->tasks, $task->create());
-        
         $this->updateTaskFile($this->tasks);
 
         echo "\n ✅ Task added successfully (ID: ".$this->nextId .") \n";
     }
 
-    public function getAllTasks()
+    public function getAllTasks(): string
     {
         $tasks = $this->getTaskFile();
 
@@ -42,12 +39,11 @@ class TaskManager
     {
         $validTaskIndex = $this->getValidItem($taskId);
         
-        if ($validTaskIndex == -1) {
+        if ($validTaskIndex === -1) {
             return;
         }
 
         $this->tasks[$validTaskIndex]["description"] = $value;
-
         $this->updateTaskFile($this->tasks);
 
         echo "\n ✅ Task updated successfully (ID: ".$taskId .") \n";
@@ -56,32 +52,12 @@ class TaskManager
 
     public function taskMarkInProgress(int $taskId)
     {
-        $validTaskIndex = $this->getValidItem($taskId);
-        
-        if ($validTaskIndex == -1) {
-            return;
-        }
-
-        $this->tasks[$validTaskIndex]["status"] = "in-progress";
-
-        $this->updateTaskFile($this->tasks);
-
-        echo "\n ✅ Task marked as in-progress successfully (ID: ".$taskId .") \n";
+        $this->updateTaskStatus($taskId, 'in-progress', 'marked as in-progress');
     }
 
     public function taskMarkDone(int $taskId)
     {
-        $validTaskIndex = $this->getValidItem($taskId);
-        
-        if ($validTaskIndex == -1) {
-            return;
-        }
-
-        $this->tasks[$validTaskIndex]["status"] = "done";
-
-        $this->updateTaskFile($this->tasks);
-
-        echo "\n ✅ Task marked as done successfully (ID: ".$taskId .") \n";
+        $this->updateTaskStatus($taskId, 'done', 'marked as done');
     }
 
     public function deleteTask(int $taskId) : void
@@ -95,6 +71,17 @@ class TaskManager
         $this->updateTaskFile($this->tasks);
 
         echo "\n ✅ Task deleted successfully (ID: ".$taskId .") \n";
+    }
+
+    private function updateTaskStatus(int $taskId, string $status, string $message): void
+    {
+        $validTaskIndex = $this->getValidItem($taskId);
+        if ($validTaskIndex === -1) {
+            return;
+        }
+        $this->tasks[$validTaskIndex]['status'] = $status;
+        $this->updateTaskFile($this->tasks);
+        echo "\n ✅ Task {$message} successfully (ID: {$taskId}) \n";
     }
 
     public function createTaskFileIfNotExist(): void
