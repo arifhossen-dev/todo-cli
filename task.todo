@@ -1,0 +1,54 @@
+init the project
+
+Learn fileSystem:
+    1. Create a Task.json file ✅
+    2. Add task to the Task.josn file ✅
+    3. Update task
+    3. Get the list of tasks ✅
+    4. 
+
+
+
+
+create a task.json file in php script
+
+    //create a task.json file in php script
+    $task = [
+        "tasks": [
+            {
+                "id": 1,
+                "description": "buy groceries",
+                "status": "pending",//pending, completed, deleted
+                "createdAt": "2025-02-14 10:00:00",
+                "updatedAt": null
+            }
+        ]
+    ];
+
+    //create a task.json file in php script
+    file_put_contents('task.json', json_encode($task));
+
+#######################################################################
+Create `mytodo` command alias ✅
+
+# Adding a new task ✅
+    task-cli add "Buy groceries"
+# Output: Task added successfully (ID: 1)
+
+# Updating and deleting tasks
+    task-cli update 1 "Buy groceries and cook dinner"
+    task-cli delete 1
+
+# Marking a task as in progress or done
+    task-cli mark-in-progress 1
+    task-cli mark-done 1
+
+# Listing all tasks
+    task-cli list
+
+# Listing tasks by status
+    task-cli list done
+    task-cli list todo
+    task-cli list in-progress
+
+
