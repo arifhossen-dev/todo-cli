@@ -24,6 +24,12 @@ switch ($command) {
     case 'update':
         $taskManger->updateTaskById($arg1, $arg2);
         break;
+    case 'mark-in-progress':
+        $taskManger->taskMarkInProgress($arg1);
+        break;
+    case 'mark-done':
+        $taskManger->taskMarDone($arg1);
+        break;
     default:
         echo "Invalid command\n";
         break;

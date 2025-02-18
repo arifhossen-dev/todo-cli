@@ -53,6 +53,50 @@ class TaskManager
         echo "\n ✅ Task updated successfully! \n";
     }
 
+
+    public function taskMarkInProgress(int $taskId)
+    {
+        $validTaskIndex = $this->getValidItem($taskId);
+        
+        if ($validTaskIndex == -1) {
+            return;
+        }
+
+        $this->tasks[$validTaskIndex]["status"] = "in-progress";
+
+        $this->updateTaskFile($this->tasks);
+
+        echo "\n ✅ Task marked as in-progress successfully! \n";
+    }
+
+    public function taskMarDone(int $taskId)
+    {
+        $validTaskIndex = $this->getValidItem($taskId);
+        
+        if ($validTaskIndex == -1) {
+            return;
+        }
+
+        $this->tasks[$validTaskIndex]["status"] = "done";
+
+        $this->updateTaskFile($this->tasks);
+
+        echo "\n ✅ Task marked as done successfully! \n";
+    }
+
+    public function deleteTask(int $taskId) : void
+    {
+        $validTaskIndex = $this->getValidItem($taskId);
+        if ($validTaskIndex == -1) {
+            return;
+        }
+
+        unset($this->tasks[$validTaskIndex]);
+        $this->updateTaskFile($this->tasks);
+
+        echo "\n ✅ Task deleted successfully! \n";
+    }
+
     public function createTaskFileIfNotExist(): void
     {
         if (!file_exists($this->taskStore) || filesize($this->taskStore) == 0) {
@@ -98,12 +142,6 @@ class TaskManager
         }
         
         return $seletedTaskIndex;
-    }
-
-    // TODO: implement this method
-    public function deleteTask(string $taskId) : void
-    {
-        //
     }
 
     public function getLastTaskId(): int|null
