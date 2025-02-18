@@ -24,7 +24,7 @@ class TaskManager
         
         $this->updateTaskFile($this->tasks);
 
-        echo "\n ✅ Task added successfully! \n";
+        echo "\n ✅ Task added successfully (ID: ".$this->nextId .") \n";
     }
 
     public function getAllTasks()
@@ -50,7 +50,7 @@ class TaskManager
 
         $this->updateTaskFile($this->tasks);
 
-        echo "\n ✅ Task updated successfully! \n";
+        echo "\n ✅ Task updated successfully (ID: ".$taskId .") \n";
     }
 
 
@@ -66,7 +66,7 @@ class TaskManager
 
         $this->updateTaskFile($this->tasks);
 
-        echo "\n ✅ Task marked as in-progress successfully! \n";
+        echo "\n ✅ Task marked as in-progress successfully (ID: ".$taskId .") \n";
     }
 
     public function taskMarDone(int $taskId)
@@ -81,7 +81,7 @@ class TaskManager
 
         $this->updateTaskFile($this->tasks);
 
-        echo "\n ✅ Task marked as done successfully! \n";
+        echo "\n ✅ Task marked as done successfully (ID: ".$taskId .") \n";
     }
 
     public function deleteTask(int $taskId) : void
@@ -94,7 +94,7 @@ class TaskManager
         unset($this->tasks[$validTaskIndex]);
         $this->updateTaskFile($this->tasks);
 
-        echo "\n ✅ Task deleted successfully! \n";
+        echo "\n ✅ Task deleted successfully (ID: ".$taskId .") \n";
     }
 
     public function createTaskFileIfNotExist(): void
