@@ -17,6 +17,6 @@ match ($command) {
     'delete'=> $taskManger->deleteTask($arg1),
     'update'=> $taskManger->updateTaskById($arg1, $arg2),
     'mark-in-progress' => $taskManger->taskMarkInProgress($arg1),
-    'mark-done'=>$taskManger->taskMarDone($arg1),
+    'mark-done'=>$taskManger->taskMarkDone($arg1),
     default => print "⚠️ Invalid command\n",
 };

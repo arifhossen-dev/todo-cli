@@ -29,13 +29,13 @@ class TaskManager
 
     public function getAllTasks()
     {
-        $getTasks = $this->getTaskFile();
+        $tasks = $this->getTaskFile();
 
-        foreach ($getTasks as $task) {
+        foreach ($tasks as $task) {
             echo $task["id"]." | ".$task["description"]." | ".$task["status"]." | ".$this->getDateOnly($task["created_at"])."\n";
         }
 
-        return json_encode($getTasks);
+        return json_encode($tasks);
     }
 
     public function updateTaskById(string $taskId, string $value) : void
@@ -69,7 +69,7 @@ class TaskManager
         echo "\n ✅ Task marked as in-progress successfully (ID: ".$taskId .") \n";
     }
 
-    public function taskMarDone(int $taskId)
+    public function taskMarkDone(int $taskId)
     {
         $validTaskIndex = $this->getValidItem($taskId);
         
@@ -99,8 +99,8 @@ class TaskManager
 
     public function createTaskFileIfNotExist(): void
     {
-        if (!file_exists($this->taskStore) || filesize($this->taskStore) == 0) {
-            file_put_contents($this->taskStore,"[]");
+        if (!file_exists($this->taskStore) || filesize($this->taskStore) === 0) {
+            file_put_contents($this->taskStore,json_encode([]));
         }
     }
 
@@ -114,34 +114,23 @@ class TaskManager
     public function updateTaskFile($tasks) : void 
     {
         file_put_contents($this->taskStore,json_encode($tasks));
-
-        json_decode(file_get_contents($this->taskStore),true);
     }
 
     public function getValidItem(int $taskId): int
     {
-        if ($taskId == 0 || $taskId == "" || $taskId < -1) {
-            // throw new \InvalidArgumentException("Task with ID $taskId not found.");
+        if ($taskId <= 0) {
             echo "\n🛑 Please provide a valide task ID.\n";
             return -1;
         }
 
-        $seletedTask = [];
-        $seletedTaskIndex = -1;
-
         foreach ( $this->tasks as $index => $task) {
             if ($task["id"] == $taskId) {
-                $seletedTask[] = $task;
-                $seletedTaskIndex = $index;
+                return $index;
             }
         }
 
-        if (count($seletedTask) <= 0) {
-            echo "\n🛑 Task with ID $taskId not found.\n";
-            return -1;
-        }
-        
-        return $seletedTaskIndex;
+        echo "\n🛑 Task with ID $taskId not found.\n";
+        return -1;
     }
 
     public function getLastTaskId(): int|null
