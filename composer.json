@@ -16,5 +16,8 @@
             "email": "arifhossen.dev@gmail.com"
         }
     ],
-    "bin": ["src/cli.php"]
+    "bin": ["src/cli.php"],
+    "require-dev": {
+        "rector/rector": "^2.0"
+    }
 }
