@@ -27,6 +27,32 @@ class TaskManager
         echo "\n ✅ Task added successfully! \n";
     }
 
+    public function getAllTasks()
+    {
+        $getTasks = $this->getTaskFile();
+
+        foreach ($getTasks as $task) {
+            echo $task["id"]." | ".$task["description"]." | ".$task["status"]." | ".$this->getDateOnly($task["created_at"])."\n";
+        }
+
+        return json_encode($getTasks);
+    }
+
+    public function updateTaskById(string $taskId, string $value) : void
+    {
+        $validTaskIndex = $this->getValidItem($taskId);
+        
+        if ($validTaskIndex == -1) {
+            return;
+        }
+
+        $this->tasks[$validTaskIndex]["description"] = $value;
+
+        $this->updateTaskFile($this->tasks);
+
+        echo "\n ✅ Task updated successfully! \n";
+    }
+
     public function createTaskFileIfNotExist(): void
     {
         if (!file_exists($this->taskStore) || filesize($this->taskStore) == 0) {
@@ -48,14 +74,34 @@ class TaskManager
         json_decode(file_get_contents($this->taskStore),true);
     }
 
-    // TODO: implement this method
-    public function deleteTask(string $taskId) : void
+    public function getValidItem(int $taskId): int
     {
-        //
+        if ($taskId == 0 || $taskId == "" || $taskId < -1) {
+            // throw new \InvalidArgumentException("Task with ID $taskId not found.");
+            echo "\n🛑 Please provide a valide task ID.\n";
+            return -1;
+        }
+
+        $seletedTask = [];
+        $seletedTaskIndex = -1;
+
+        foreach ( $this->tasks as $index => $task) {
+            if ($task["id"] == $taskId) {
+                $seletedTask[] = $task;
+                $seletedTaskIndex = $index;
+            }
+        }
+
+        if (count($seletedTask) <= 0) {
+            echo "\n🛑 Task with ID $taskId not found.\n";
+            return -1;
+        }
+        
+        return $seletedTaskIndex;
     }
 
-    // TODO: implement update task by id
-    public function updateTask(string $taskId) : void
+    // TODO: implement this method
+    public function deleteTask(string $taskId) : void
     {
         //
     }
@@ -65,17 +111,6 @@ class TaskManager
         $lastTask = end($this->tasks);
 
         return $lastTask["id"]??null;
-    }
-
-    public function getAllTasks()
-    {
-        $getTasks = $this->getTaskFile();
-
-        foreach ($getTasks as $task) {
-            echo $task["id"]." | ".$task["description"]." | ".$task["status"]." | ".$this->getDateOnly($task["created_at"])."\n";
-        }
-
-        return json_encode($getTasks);
     }
 
     public function getDateOnly($date): string

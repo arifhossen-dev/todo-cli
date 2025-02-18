@@ -22,7 +22,7 @@ switch ($command) {
         $taskManger->deleteTask($arg1);
         break;
     case 'update':
-        $taskManger->updateTask($arg1);
+        $taskManger->updateTaskById($arg1, $arg2);
         break;
     default:
         echo "Invalid command\n";
