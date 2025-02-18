@@ -11,26 +11,12 @@ $command = $argv[1] ?? null;
 $arg1 = $argv[2] ?? null;
 $arg2 = $argv[3] ?? null;
 
-switch ($command) {
-    case 'add':
-        $taskManger->addTask($arg1);
-        break;
-    case 'list':
-        $taskManger->getAllTasks();
-        break;
-    case 'delete':
-        $taskManger->deleteTask($arg1);
-        break;
-    case 'update':
-        $taskManger->updateTaskById($arg1, $arg2);
-        break;
-    case 'mark-in-progress':
-        $taskManger->taskMarkInProgress($arg1);
-        break;
-    case 'mark-done':
-        $taskManger->taskMarDone($arg1);
-        break;
-    default:
-        echo "Invalid command\n";
-        break;
-}
+match ($command) {
+    'add' => $taskManger->addTask($arg1),
+    'list' => $taskManger->getAllTasks(),
+    'delete'=> $taskManger->deleteTask($arg1),
+    'update'=> $taskManger->updateTaskById($arg1, $arg2),
+    'mark-in-progress' => $taskManger->taskMarkInProgress($arg1),
+    'mark-done'=>$taskManger->taskMarDone($arg1),
+    default => print "⚠️ Invalid command\n",
+};
