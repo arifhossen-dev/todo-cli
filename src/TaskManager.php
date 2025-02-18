@@ -18,7 +18,7 @@ class TaskManager
     public function addTask(string $description): void
     {
         $task = new Task($this->nextId, $description);
-        array_push($this->tasks, $task->create());
+        $this->tasks[] = $task->create();
         $this->updateTaskFile($this->tasks);
 
         echo "\n ✅ Task added successfully (ID: ".$this->nextId .") \n";

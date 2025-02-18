@@ -4,7 +4,7 @@ namespace TaskCli;
 
 class Task 
 {
-    private string $status;
+    private string $status = "pending";
     private string $createdAt;
     private string $updatedAt;
     
@@ -12,7 +12,6 @@ class Task
         private int $id, 
         private string $description, 
     ){
-        $this->status = "pending";
         $this->createdAt = date("Y-m-d H:i:s");
         $this->updatedAt = date("Y-m-d H:i:s");
     }
