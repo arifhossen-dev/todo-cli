@@ -18,6 +18,12 @@
     ],
     "bin": ["src/cli.php"],
     "require-dev": {
-        "rector/rector": "^2.0"
+        "rector/rector": "^2.0",
+        "pestphp/pest": "^3.7"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
     }
 }
